@@ -11,7 +11,7 @@ import SignIn from "./pages/SignIn.jsx"
 
 createRoot(document.getElementById("root")).render(
     <StrictMode>
-        <BrowserRouter>
+        <BrowserRouter basename="/absproxy/51929/">
             <Routes>
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Board />} />

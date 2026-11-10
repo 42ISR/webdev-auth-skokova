@@ -7,9 +7,24 @@ import { useMessageStore } from "../store/useMessageStore";
 
 const Board = () => {
     const {user} = useUserStore()
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState(null)
     const {messages, getMessages} = useMessageStore()
     useEffect(() => {
+        const load = async () => {
+        setError(null)
+        setIsLoading(true)
+        try {
+            getMessages()
+        } catch (error) {
+            console.error(error)
+            setError(error.message)
+        } finally {
+            setIsLoading(false)
+        }
+    }
         getMessages()
+    load()
 }, [])
 
 
@@ -17,7 +32,11 @@ const Board = () => {
         <>
             <h1>Board</h1>
             {user && <MessageField />}
+            {isLoading && <p>Загрузка...</p>}
+            {error && <p>{error}</p>}
+            {messages.length > 0 && (
             <Feed messages={messages} title="Последние сообщения" />
+            )}
         </>
     )
 }
